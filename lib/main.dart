@@ -3,23 +3,12 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:hello_rectangl/unit_converter_app.dart';
 
 import 'category.dart';
-import './settings.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: appName,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(appName),
-        ),
-        body: HelloRectangle(),
-      ),
-    ),
-  );
+  runApp(UnitConverterApp());
 }
 
 const _categoryName = 'Check Here';
