@@ -46,10 +46,12 @@ class Category extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-                  child: Icon(
-                    iconLocation,
-                    size: _iconSize,
-                    color: Colors.blue[400],
+                  child: Opacity(
+                    opacity: 0.7,
+                    child: Icon(
+                      iconLocation,
+                      size: _iconSize,
+                    ),
                   ),
                 ),
                 Expanded(
