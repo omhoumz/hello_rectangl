@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 
 EdgeInsets _rowPadding = EdgeInsets.all(8.0);
-double _rowHeight = 80.0;
+double _rowHeight = 100.0;
 BorderRadius _borderRadius = BorderRadius.all(Radius.circular(_rowHeight / 2));
 double _iconSize = 35.0;
 double _textSize = 24.0;
@@ -45,7 +45,7 @@ class Category extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                  padding: EdgeInsets.fromLTRB(16.0, 8.0, 24.0, 8.0),
                   child: Opacity(
                     opacity: 0.7,
                     child: Icon(
