@@ -1,1 +1,1 @@
-const appName = 'Hello Rectangle';
+const appName = 'Unit Converter';
