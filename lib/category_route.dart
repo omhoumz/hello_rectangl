@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hello_rectangl/category.dart';
 
 import 'package:hello_rectangl/settings.dart';
+import 'package:hello_rectangl/category.dart';
+import 'package:hello_rectangl/unit.dart';
 
 final _bgColor = Colors.orange[100];
 final _appBarTitleColor = Colors.blue[800];
@@ -31,6 +32,17 @@ class CategoryRoute extends StatelessWidget {
     Colors.red,
   ];
 
+  /// Returns a list of mock [Unit]s.
+  List<Unit> _retrieveUnitList(String categoryName) {
+    return List.generate(10, (int i) {
+      i += 1;
+      return Unit(
+        name: '$categoryName Unit $i',
+        conversion: i.toDouble(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final listView = Container(
@@ -42,6 +54,7 @@ class CategoryRoute extends StatelessWidget {
             color: _baseColors[index],
             iconLocation: Icons.check_circle,
             name: _categoryNames[index],
+            units: _retrieveUnitList(_categoryNames[index]),
           );
         },
         separatorBuilder: (BuildContext context, int index) =>
