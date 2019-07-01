@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'package:hello_rectangl/settings.dart';
-import 'package:hello_rectangl/category.dart';
-import 'package:hello_rectangl/unit.dart';
+import 'package:unit_converter/settings.dart';
+import 'package:unit_converter/category.dart';
+import 'package:unit_converter/unit.dart';
 
 final _bgColor = Colors.orange[100];
 final _appBarTitleColor = Colors.blue[800];
 
-class CategoryRoute extends StatelessWidget {
+class CategoryRoute extends StatefulWidget {
   const CategoryRoute();
+
+  @override
+  _CategoryRouteState createState() => _CategoryRouteState();
+}
+
+class _CategoryRouteState extends State<CategoryRoute> {
+  final _categories = <Category>[];
 
   static const _categoryNames = <String>[
     'Length',
@@ -32,6 +39,28 @@ class CategoryRoute extends StatelessWidget {
     Colors.red,
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < _categoryNames.length; i++) {
+      _categories.add(Category(
+        name: _categoryNames[i],
+        color: _baseColors[i],
+        iconLocation: Icons.cake,
+        units: _retrieveUnitList(_categoryNames[i]),
+      ));
+    }
+  }
+
+  Widget _buildCategoryWidgets() {
+    return ListView.separated(
+      itemCount: _categories.length,
+      itemBuilder: (BuildContext context, int index) => _categories[index],
+      separatorBuilder: (BuildContext context, int index) =>
+          const Padding(padding: EdgeInsets.all(4.0)),
+    );
+  }
+
   /// Returns a list of mock [Unit]s.
   List<Unit> _retrieveUnitList(String categoryName) {
     return List.generate(10, (int i) {
@@ -46,20 +75,8 @@ class CategoryRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final listView = Container(
-      child: ListView.separated(
-        padding: const EdgeInsets.all(8.0),
-        itemCount: _categoryNames.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Category(
-            color: _baseColors[index],
-            iconLocation: Icons.check_circle,
-            name: _categoryNames[index],
-            units: _retrieveUnitList(_categoryNames[index]),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) =>
-            const Padding(padding: EdgeInsets.all(4.0)),
-      ),
+      child: _buildCategoryWidgets(),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
     );
 
     final appBar = AppBar(
