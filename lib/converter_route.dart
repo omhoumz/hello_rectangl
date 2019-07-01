@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:hello_rectangl/unit.dart';
+import 'package:unit_converter/unit.dart';
 
 class ConverterRoute extends StatelessWidget {
   final List<Unit> units;

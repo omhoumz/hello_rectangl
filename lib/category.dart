@@ -6,8 +6,8 @@
 // https://www.dartlang.org/guides/language/effective-dart/style#ordering
 import 'package:flutter/material.dart';
 
-import 'package:hello_rectangl/converter_route.dart';
-import 'package:hello_rectangl/unit.dart';
+import 'package:unit_converter/converter_route.dart';
+import 'package:unit_converter/unit.dart';
 
 EdgeInsets _rowPadding = EdgeInsets.all(8.0);
 double _rowHeight = 100.0;

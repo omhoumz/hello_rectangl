@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:hello_rectangl/category_route.dart';
-import 'package:hello_rectangl/settings.dart';
+import 'package:unit_converter/category_route.dart';
+import 'package:unit_converter/settings.dart';
 
 class UnitConverterApp extends StatelessWidget {
   @override

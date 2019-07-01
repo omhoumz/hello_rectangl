@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:hello_rectangl/unit_converter_app.dart';
+import 'package:unit_converter/unit_converter_app.dart';
 
 void main() {
   runApp(UnitConverterApp());
