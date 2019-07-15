@@ -1,12 +1,22 @@
+// Copyright 2018 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
-import 'package:unit_converter/settings.dart';
-import 'package:unit_converter/category.dart';
-import 'package:unit_converter/unit.dart';
+import 'backdrop.dart';
+import 'category.dart';
+import 'category_tile.dart';
+import 'unit.dart';
+import 'unit_converter.dart';
 
-final _bgColor = Colors.orange[100];
-final _appBarTitleColor = Colors.blue[800];
-
+/// Category Route (screen).
+///
+/// This is the 'home' screen of the Unit Converter. It shows a header and
+/// a list of [Categories].
+///
+/// While it is named CategoryRoute, a more apt name would be CategoryScreen,
+/// because it is responsible for the UI at the route's destination.
 class CategoryRoute extends StatefulWidget {
   const CategoryRoute();
 
@@ -15,8 +25,9 @@ class CategoryRoute extends StatefulWidget {
 }
 
 class _CategoryRouteState extends State<CategoryRoute> {
+  Category _defaultCategory;
+  Category _currentCategory;
   final _categories = <Category>[];
-
   static const _categoryNames = <String>[
     'Length',
     'Area',
@@ -27,7 +38,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     'Energy',
     'Currency',
   ];
-
   static const _baseColors = <ColorSwatch>[
     ColorSwatch(0xFF6AB7A8, {
       'highlight': Color(0xFF6AB7A8),
@@ -68,25 +78,42 @@ class _CategoryRouteState extends State<CategoryRoute> {
   void initState() {
     super.initState();
     for (var i = 0; i < _categoryNames.length; i++) {
-      _categories.add(Category(
+      var category = Category(
         name: _categoryNames[i],
         color: _baseColors[i],
         iconLocation: Icons.cake,
         units: _retrieveUnitList(_categoryNames[i]),
-      ));
+      );
+      if (i == 0) {
+        _defaultCategory = category;
+      }
+      _categories.add(category);
     }
   }
 
+  /// Function to call when a [Category] is tapped.
+  void _onCategoryTap(Category category) {
+    setState(() {
+      _currentCategory = category;
+    });
+  }
+
+  /// Makes the correct number of rows for the list view.
+  ///
+  /// For portrait, we use a [ListView].
   Widget _buildCategoryWidgets() {
-    return ListView.separated(
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return CategoryTile(
+          category: _categories[index],
+          onTap: _onCategoryTap,
+        );
+      },
       itemCount: _categories.length,
-      itemBuilder: (BuildContext context, int index) => _categories[index],
-      separatorBuilder: (BuildContext context, int index) =>
-          const Padding(padding: EdgeInsets.all(4.0)),
     );
   }
 
-  /// Returns a list of [Unit]s.
+  /// Returns a list of mock [Unit]s.
   List<Unit> _retrieveUnitList(String categoryName) {
     return List.generate(10, (int i) {
       i += 1;
@@ -99,29 +126,24 @@ class _CategoryRouteState extends State<CategoryRoute> {
 
   @override
   Widget build(BuildContext context) {
-    final listView = Container(
-      child: _buildCategoryWidgets(),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-    );
-
-    final appBar = AppBar(
-      title: Text(
-        appName,
-        style: TextStyle(
-          fontSize: 30.0,
-          color: _appBarTitleColor,
-          fontWeight: FontWeight.w300,
-        ),
+    final listView = Padding(
+      padding: EdgeInsets.only(
+        left: 8.0,
+        right: 8.0,
+        bottom: 48.0,
       ),
-      centerTitle: true,
-      elevation: 0.0,
-      backgroundColor: _bgColor,
+      child: _buildCategoryWidgets(),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: listView,
-      backgroundColor: _bgColor,
+    return Backdrop(
+      currentCategory:
+          _currentCategory == null ? _defaultCategory : _currentCategory,
+      frontPanel: _currentCategory == null
+          ? UnitConverter(category: _defaultCategory)
+          : UnitConverter(category: _currentCategory),
+      backPanel: listView,
+      frontTitle: Text('Unit Converter'),
+      backTitle: Text('Select a Category'),
     );
   }
 }
